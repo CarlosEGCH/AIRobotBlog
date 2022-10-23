@@ -22,7 +22,7 @@ import { useViewport } from "../hooks/responsive";
 
 export default function Navbar(){
 
-    const viewport = useViewport();
+    let viewport = useViewport().width;
 
     return (
         <section className={"navbar-wrapper"}>
