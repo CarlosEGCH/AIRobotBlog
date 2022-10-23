@@ -21,6 +21,7 @@
     flex-direction: row;
     justify-content: space-between;
     width: 180px;
+    align-items: center;
 }
 .navbar-wrapper .navbar-logo-container{
     display: flex;

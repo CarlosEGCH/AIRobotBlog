@@ -1,0 +1,30 @@
+.content-wrapper{
+    background: white;
+    color: black;
+    padding: 60px;
+    padding-top: 10px;
+}
+.content-wrapper .content-header{
+    font-size: 24px;
+    font-weight: 600;
+    color: rgb(109,109,109);
+}
+.content-wrapper .content-posts{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    margin-top: 40px;
+    width: 100%;
+    gap: 40px;
+    padding-bottom: 40px;
+}
+.content-wrapper .content-posts .posts-post h2 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-top: 10px;
+}
+
+.content-wrapper .content-posts .posts-post h1 {
+    font-size: 22px;
+    font-weight: 600;
+    color: black;
+}

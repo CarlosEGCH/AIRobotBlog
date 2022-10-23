@@ -1,22 +1,21 @@
 import "../styles/Posts.css";
 
+import Post from "./Post.js";
+
+import catto from "../assets/catto.jpg";
+
 export default function Posts(){
 
     return (
     <section id={"posts"} className={"posts-wrapper"}>
         <div className={"posts-header"}>
-            <h1>These are our posts</h1>
-            <h4>These down there</h4>
+            <h1>MOST RECENT POSTS</h1>
         </div>
         <div className={"posts-container"}>
-            <div className={"post"}>Post1</div>
-            <div className={"post"}>Post2</div>
-            <div className={"post"}>Post3</div>
-            <div className={"post"}>Post4</div>
-            <div className={"post"}>Post5</div>
-            <div className={"post"}>Post6</div>
+            <Post image={catto} />
+            <Post image={catto} />
+            <Post image={catto} />
         </div>
     </section>
     );
-
 }
