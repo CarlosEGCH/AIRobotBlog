@@ -8,9 +8,16 @@ export default function Hero(){
         show: {
             opacity: 1,
             transition: {
-                delay: 1
+                delay: 1,
+                delayChildren: 1.5,
+                staggerChildren: 0.3
             }
         }
+    }
+
+    const letter = {
+        hidden: {opacity: 0},
+        show: {opacity: 1},
     }
 
     return(
@@ -21,7 +28,16 @@ export default function Hero(){
                         variants={heroText}
                         initial={"hidden"}
                         animate={"show"}
-                        >THE BLOG</motion.h1>
+                        >
+                            <motion.span className={"letter"} variants={letter}>T</motion.span>
+                            <motion.span className={"letter"} variants={letter}>H</motion.span>
+                            <motion.span className={"letter"} variants={letter}>E</motion.span>
+                            <span> </span>
+                            <motion.span className={"letter"} variants={letter}>B</motion.span>
+                            <motion.span className={"letter"} variants={letter}>L</motion.span>
+                            <motion.span className={"letter"} variants={letter}>O</motion.span>
+                            <motion.span className={"letter"} variants={letter}>G</motion.span>
+                        </motion.h1>
                 </div>
                 <Popular />
             </div>

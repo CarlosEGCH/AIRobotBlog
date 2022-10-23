@@ -22,7 +22,6 @@ function App() {
   return (
     <ChakraProvider theme={theme}>
       <BrowserRouter>
-      <Navbar />
         <Routes>
           <Route index path="/" element={<Homepage />} />
           <Route path="/posts" element={<Posts />} />
