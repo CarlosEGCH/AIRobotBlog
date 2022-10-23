@@ -57,7 +57,7 @@ function Rightpost(props){
             <img src={teslabot} alt="image" />
             <div className={"description"}>
                 <p>October 21, 2022</p>
-                <h3>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Eligendi dignissimos quaerat officiis blanditiis perferendis nam sed autem, excepturi culpa sapiente, alias aliquam quibusdam earum nihil debitis itaque amet corporis reprehenderit!</h3>
+                <h3>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Eligendi dignissimos quaerat officiis blanditiis </h3>
             </div>
         </div>
     )

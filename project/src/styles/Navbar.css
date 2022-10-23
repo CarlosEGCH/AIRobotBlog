@@ -33,3 +33,23 @@
 .navbar-wrapper .navbar-logo-container img{
     width: 50px;
 }
+
+@media only screen and (max-width: 700px){
+    .navbar-wrapper{
+        padding: 20px;
+    }
+    .navbar-wrapper::after {
+        display: none;
+    }
+    .navbar-wrapper .navbar-logo-container{
+        width: 200px;
+    }
+    .navbar-wrapper .navbar-logo-container p{
+        display: none;
+    }
+    .navbar-wrapper .mobile-button{
+        width: 60px;
+        align-self: center;
+        background-color: white;
+    }
+}

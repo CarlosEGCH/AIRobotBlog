@@ -4,6 +4,7 @@ import { Button } from '@chakra-ui/react'
 import Hero from "./Hero";
 import Posts from "./Posts";
 import Content from "./Content";
+import Footer from "./Footer";
 
 export default function Homepage(){
 
@@ -12,6 +13,7 @@ export default function Homepage(){
             <Hero />
             <Posts />
             <Content />
+            <Footer />
         </>)
 
 } 
