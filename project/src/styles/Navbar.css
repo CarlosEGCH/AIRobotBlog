@@ -8,6 +8,14 @@
     font-size: 22px;
     padding: 20px 100px;
 }
+.navbar-wrapper::after{
+    position: absolute;
+    content: '';
+    width: 90vw;
+    height: 2px;
+    background: rgb(31, 31, 31);
+    top: 100px;
+}
 .navbar-wrapper .navbar-links-container{
     display: flex;
     flex-direction: row;
@@ -19,7 +27,7 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    width: 220px;
+    width: 250px;
 }
 .navbar-wrapper .navbar-logo-container img{
     width: 50px;

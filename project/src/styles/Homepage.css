@@ -1,42 +1,65 @@
 .hero-wrapper{
-    height: 900px;
     display: flex;
     justify-content: center;
-    align-items: center;
-    background-image: url("../assets/hero-background1.png");
-    background-repeat: no-repeat;
-    background-size: 1920px;
-    background-position: center;
     overflow-y: hidden;
     position: relative;
-}
-.hero-wrapper .bg2{
-    max-width: 100%;
-    position: absolute;
-    left: 0;
-    z-index: 2;
-    bottom: -100px;
 }
 .hero-wrapper .hero-content{
     text-align: center;
     z-index: 3;
-    transform: translateY(-80px);
+    display: flex;
+    flex-direction: column;
 }
 .hero-wrapper .hero-content h1{
-    font-size: 72px;
+    font-size: 350px;
     font-weight: 600;
+    border-bottom: 2px solid rgb(31,31,31);
 }
-.hero-wrapper .hero-content h4 {
+.hero-wrapper .hero-content .hero-posts{
+    width: 90vw;
+    display: flex;
+    justify-content: center;
+    margin: 120px auto;
+}
+.hero-wrapper .hero-posts .left{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.hero-wrapper .hero-posts .left img{
+    object-fit: contain;
+    max-height: 600px;
+    margin: 20px;
+}
+.hero-wrapper .hero-posts .right{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.hero-wrapper .hero-posts .right .rightpost{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    text-align: start;
+    border-bottom: 2px solid rgb(31,31,31);
+}
+.hero-wrapper .hero-posts .right .rightpost img{
+    margin: 20px;
+    width: 350px;
+}
+.hero-wrapper .hero-content .hero-posts .description p{
+    color: rgb(80, 80, 80);
+    font-weight: 500;
+}
+.hero-wrapper .hero-content .hero-posts .description h3{
+    font-weight: 500;
+}
+.hero-wrapper .hero-content .hero-posts .description h2 {
+    color: white;
+}
+.hero-wrapper .hero-content .hero-posts .left .description h3 {
+    color: rgb(136, 135, 135);
+}
+.hero-wrapper .hero-content .hero-posts .left .description h2 {
     font-size: 22px;
-}
-.hero-wrapper .hero-content .button{
-    margin: 10px 0px;
-    font-size: 18px;
-    width: 140px;
-    height: 45px;
-    margin-top: 15px;
-    background: #f37e1f;
-}
-.hero-wrapper .hero-content .button:hover {
-    transform: scale(1.05);
 }

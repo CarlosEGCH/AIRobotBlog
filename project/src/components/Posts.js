@@ -3,7 +3,7 @@ import "../styles/Posts.css";
 export default function Posts(){
 
     return (
-    <section className={"posts-wrapper"}>
+    <section id={"posts"} className={"posts-wrapper"}>
         <div className={"posts-header"}>
             <h1>These are our posts</h1>
             <h4>These down there</h4>
