@@ -1,5 +1,6 @@
 //API: https://rickandmortyapi.com/api/character
 import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 
 import teslabot from '../assets/teslabot.jpg';
 
@@ -28,25 +29,44 @@ export default function Popular(){
 
     let nPosts = 0;
 
+    const container = {
+        hidden: { opacity: 0 },
+        show: {
+            opacity: 1,
+            transition: {
+            delay: 1.5,
+            staggerChildren: 2,
+            }
+        }
+    }
+
+    const item = {
+        hidden: { opacity: 0 },
+        show: { opacity: 1 }
+    }
+
     return (
-        <div className={"hero-posts"}>
-            <div className={"left"}>
-                <img src={teslabot} />
+        <motion.div variants={container} initial="hidden" animate="show" className={"hero-posts"}>
+            <motion.div variants={item} className={"left"}>
+                <motion.img 
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+                src={teslabot} />
                 <div className={"description"}>
                     <p>October 23, 2022</p>
                     <h2>Dumbass scientist found guilty of developing serum that turns people into politicians</h2>
                     <h3>{posts[0].name}</h3>
                 </div>
-            </div>
-            <div className={"right"}>
+            </motion.div>
+            <motion.div variants={item} className={"right"}>
                 {posts.map((post, key) => {
                     if(nPosts < 3){
                         nPosts++;
                         return (<Rightpost post={post} key={key} />)
                     }
                 })}
-            </div>
-        </div>
+            </motion.div>
+        </motion.div>
     );
 }
 
@@ -54,7 +74,9 @@ function Rightpost(props){
 
     return(
         <div className={"rightpost"}>
-            <img src={teslabot} alt="image" />
+            <motion.img 
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }} src={teslabot} alt="image" />
             <div className={"description"}>
                 <p>October 21, 2022</p>
                 <h3>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Eligendi dignissimos quaerat officiis blanditiis </h3>

@@ -1,5 +1,6 @@
 import { useRef } from "react";
 import "../styles/Navbar.css";
+import { motion } from "framer-motion";
 
 import menu from "../assets/menuicon.svg";
 
@@ -25,22 +26,31 @@ export default function Navbar(){
     let viewport = useViewport().width;
 
     return (
-        <section className={"navbar-wrapper"}>
-            <div className={"navbar-logo-container"}>
-                <img src={octopus} />
-                <p>AI Project Group 1</p>
-            </div>
-            {viewport > 700 ? <Desktop /> : <Mobile />}
-        </section>
+          <motion.section 
+            initial={{ opacity: 0 }}
+            animate={{opacity: 1}}
+            transition={{delay: 0.5}}
+            className={"navbar-wrapper"}>
+                <div className={"navbar-logo-container"}>
+                    <img src={octopus} />
+                    <p>AI Project Group 1</p>
+                </div>
+                {viewport > 700 ? <Desktop /> : <Mobile />}
+            </motion.section>
     );
 }
 
 function Desktop(){
 
-
     return(<div className={"navbar-links-container"}>
-                <a href="#">Home</a>
-                <a href="#posts">Posts</a>
+                <motion.a 
+                whileHover={{ scale: 1.2 }}
+                whileTap={{ scale: 1.1 }}
+                href="/">Home</motion.a>
+                <motion.a
+                whileHover={{ scale: 1.2 }}
+                whileTap={{ scale: 1.1 }}
+                href="/posts">Posts</motion.a>
             </div>)
 }
 
