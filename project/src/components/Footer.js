@@ -2,6 +2,12 @@ import "../styles/Footer.css";
 
 export default function Footer(){
 
+    const catBoi = () => {
+
+        window.open("https://i.imgflip.com/6919tu.jpg", "_blank");
+
+    }
+
     return(
         <section className={"footer-wrapper"}>
             <div className={"left"}>
@@ -11,7 +17,7 @@ export default function Footer(){
                         <a href="#">Home</a>
                         <a href="#posts">Posts</a>
                     </div>
-                    <div className={"copyright"}>
+                    <div className={"copyright"} onClick={catBoi}>
                         © 2022 CarlosEGCH. All rights reserved.
                     </div>
                 </div>
