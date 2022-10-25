@@ -1,0 +1,127 @@
+.postbanner-wrapper{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 80px;
+    position: relative;
+}
+.postbanner-wrapper .postbanner-background{
+    position: absolute;
+    filter: grayscale(90%) brightness(10%);
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.postbanner-wrapper .postbanner-header{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin: 120px 40px;
+    z-index: 10;
+}
+.postbanner-wrapper .image-container{
+    position: relative;
+}
+.postbanner-wrapper .title-container h1{
+    font-size: 84px;
+    margin: 40px 0px 40px 50px;
+}
+.postbanner-wrapper .title-container h3 {
+    font-size: 34px;
+    margin: 40px 0px 40px 90px;
+    color: lightgray;
+}
+.postcontent-wrapper{
+    padding: 120px 100px;
+}
+.postcontent-wrapper .first{
+    font-size: 26px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid darkslategray;
+}
+.postcontent-wrapper .second{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin: 60px 0px;
+}
+.postcontent-wrapper .second img{
+    padding: 30px;
+}
+.postcontent-wrapper .second p{
+    font-size: 22px;
+    padding: 60px 10px;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+.postcontent-wrapper .second p::before{
+    content: '';
+    height: 70%;
+    width: 1px;
+    background: darkslategray;
+    position: absolute;
+    left: -10px;
+}
+.postcontent-wrapper .third {
+    font-size: 26px;
+    padding-top: 10px;
+    border-top: 1px solid darkslategray;
+}
+
+@media only screen and (max-width: 700px) {
+.postbanner-wrapper .postbanner-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin: 120px 40px 40px 40px;
+    z-index: 10;
+}
+.postbanner-wrapper .title-container h1 {
+    font-size: 28px;
+    text-align: center;
+    margin: 30px 0px 0px 0px;
+}
+.postbanner-wrapper .title-container h3 {
+    font-size: 18px;
+    text-align: center;
+    margin: 20px 0px 0px 0px;
+}
+.postbanner-wrapper .postbanner-header{
+    grid-template-columns: 1fr;
+}
+
+.postcontent-wrapper {
+    padding: 40px 30px;
+}
+
+.postcontent-wrapper .first {
+    font-size: 18px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid darkslategray;
+}
+
+.postcontent-wrapper .second {
+    display: grid;
+    grid-template-columns: 1fr;
+    margin: 30px 0px;
+}
+
+.postcontent-wrapper .second img {
+    padding: 0px;
+}
+
+.postcontent-wrapper .second p {
+    font-size: 18px;
+    padding: 30px 0px 0px 0px;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.postcontent-wrapper .second p::before {
+    display: none;
+}
+
+.postcontent-wrapper .third {
+    padding-top: 30px;
+    font-size: 18px;
+}
+}

@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
 import teslabot from '../assets/teslabot.jpg';
+import { useNavigate } from "react-router-dom";
 
 export default function Popular(){
 
@@ -45,10 +46,15 @@ export default function Popular(){
         show: { opacity: 1 }
     }
 
+    const navigate = useNavigate();
+
     return (
         <motion.div variants={container} initial="hidden" animate="show" className={"hero-posts"}>
             <motion.div variants={item} className={"left"}>
                 <motion.img 
+                onClick={() => {
+                    navigate("/post/" + 1);
+                }}
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
                 src={teslabot} />
@@ -62,7 +68,7 @@ export default function Popular(){
                 {posts.map((post, key) => {
                     if(nPosts < 3){
                         nPosts++;
-                        return (<Rightpost post={post} key={key} />)
+                        return (<Rightpost id={key} post={post} key={key} />)
                     }
                 })}
             </motion.div>
@@ -72,9 +78,14 @@ export default function Popular(){
 
 function Rightpost(props){
 
+    const navigate = useNavigate();
+
     return(
         <div className={"rightpost"}>
             <motion.img 
+                onClick={() => {
+                    navigate("/post/" + props.id);
+                }}
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }} src={teslabot} alt="image" />
             <div className={"description"}>

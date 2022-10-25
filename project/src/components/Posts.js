@@ -24,9 +24,9 @@ export default function Posts(){
             <h1>MOST RECENT POSTS</h1>
         </div>
         <div className={"posts-container"}>
-            <Post style={style} image={catto} />
-            <Post style={style} image={catto} />
-            <Post style={style} image={catto} />
+            <Post id={10} style={style} image={catto} />
+            <Post id={20} style={style} image={catto} />
+            <Post id={30} style={style} image={catto} />
         </div>
     </section>
     );

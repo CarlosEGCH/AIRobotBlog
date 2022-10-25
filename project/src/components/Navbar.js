@@ -33,7 +33,7 @@ export default function Navbar(){
             className={"navbar-wrapper"}>
                 <div className={"navbar-logo-container"}>
                     <img src={octopus} />
-                    <p>AI Project Group 1</p>
+                    <p>AI Project - Group 1</p>
                 </div>
                 {viewport > 700 ? <Desktop /> : <Mobile />}
             </motion.section>
