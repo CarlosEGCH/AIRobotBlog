@@ -20,6 +20,7 @@ import {
 import octopus from "../assets/logo.png";
 
 import { useViewport } from "../hooks/responsive";
+import { useNavigate } from "react-router-dom";
 
 export default function Navbar(){
 
@@ -42,21 +43,30 @@ export default function Navbar(){
 
 function Desktop(){
 
+const navigate = useNavigate();
+
     return(<div className={"navbar-links-container"}>
-                <motion.a 
+                <motion.p 
                 whileHover={{ scale: 1.2 }}
                 whileTap={{ scale: 1.1 }}
-                href="/">Home</motion.a>
-                <motion.a
+                onClick={() => {navigate("/")}}>Home</motion.p>
+                <motion.p
                 whileHover={{ scale: 1.2 }}
                 whileTap={{ scale: 1.1 }}
-                href="/posts">Posts</motion.a>
+                onClick={() => {navigate("/posts")}}>Posts</motion.p>
             </div>)
 }
 
 function Mobile() {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const btnRef = useRef()
+
+  const navigate = useNavigate();
+
+  const chooseOption = (route) => {
+    onClose();
+    navigate(`/${route}`)
+  }
 
   return (
     <>
@@ -77,8 +87,8 @@ function Mobile() {
           </DrawerHeader>
 
           <DrawerBody display="flex" flexDirection="column" gap="20px" fontSize="22px" textAlign="center">
-            <a href="/" onClick={onClose}>Home</a>
-            <a href="/posts" onClick={onClose}>Posts</a>
+            <p onClick={() => {chooseOption("")}}>Home</p>
+            <p onClick={() => {chooseOption("posts")}}>Posts</p>
           </DrawerBody>
 
           <DrawerFooter>

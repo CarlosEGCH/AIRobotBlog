@@ -19,6 +19,9 @@
     width: 180px;
     align-items: center;
 }
+.navbar-wrapper .navbar-links-container p{
+    cursor: pointer;
+}
 .navbar-wrapper .navbar-logo-container{
     display: flex;
     flex-direction: row;
