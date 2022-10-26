@@ -2,8 +2,11 @@ import "../styles/Singlepost.css";
 
 import catto from "../assets/catto.jpg";
 
+import { motion, AnimatePresence } from "framer-motion";
+
 import Navbar from "./Navbar";
 import Footer from "./Footer";
+import { useState } from "react";
 
 export default function Singlepost(){
 
@@ -38,16 +41,61 @@ function Postcontent(){
 
 function Postbanner(){
 
+    const image = {
+        hidden: {
+            opacity: 0,
+            transition: {
+                duration: 1
+            }
+        },
+        show: {
+            opacity: 1,
+            transition: {
+                delay: 1
+            }
+        }
+    }
+
+    const title = {
+        hidden: {
+            opacity: 0,
+            x: 100
+        },
+        show: {
+            opacity: 1,
+            x: 0,
+            transition: {
+                delay: 1.2,
+                duration: 1
+            }
+        }
+    }
+
+    const subtitle = {
+        hidden: {
+            opacity: 0,
+            x: 100
+        },
+        show: {
+            opacity: 1,
+            x: 0,
+            transition: {
+                delay: 1.5,
+                duration: 1
+            }
+        }
+    }
+
     return (
         <div className={"postbanner-wrapper"}>
-            <img src={catto} className={"postbanner-background"} />
+            <img src={catto} className={"postbanner-background"}/>
             <div className={"postbanner-header"}>
-                <div className={"image-container"}>
+                <motion.div variants={image} initial="hidden" animate="show" className={"image-container"}>
                     <img src={catto} />
-                </div>
+                </motion.div>
                 <div className={"title-container"}>
-                    <h1>This is the post title</h1>
-                    <h3>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam maiores aperiam reprehenderit maxime voluptatem ex ut sint at repellendus repellat sed totam quibusdam mollitia itaque, corporis eveniet? Quam, accusamus ipsam.</h3>
+                    <motion.h1 variants={title} initial="hidden" animate="show" >This is the post title</motion.h1>
+                    <motion.h3 variants={subtitle} initial="hidden" animate="show">Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam maiores aperiam reprehenderit maxime voluptatem ex ut sint at repellendus repellat sed totam quibusdam mollitia itaque, corporis eveniet? Quam, accusamus ipsam.</motion.h3>
                 </div>
             </div>
         </div>

@@ -7,7 +7,7 @@
 }
 .postbanner-wrapper .postbanner-background{
     position: absolute;
-    filter: grayscale(90%) brightness(10%);
+    filter: grayscale(90%) brightness(30%);
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -20,6 +20,10 @@
 }
 .postbanner-wrapper .image-container{
     position: relative;
+}
+.postbanner-wrapper .title-container{
+    position: relative;
+    overflow: hidden;
 }
 .postbanner-wrapper .title-container h1{
     font-size: 84px;
