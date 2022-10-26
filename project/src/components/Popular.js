@@ -1,31 +1,47 @@
 //API: https://rickandmortyapi.com/api/character
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { Spinner } from "@chakra-ui/react";
 
 import teslabot from '../assets/teslabot.jpg';
 import { useNavigate } from "react-router-dom";
 
+import { getStorage, ref, getDownloadURL } from "firebase/storage";
+import { collection, query, getDocs } from "firebase/firestore";
+import { db } from "../firebase";
+
 export default function Popular(){
 
-    const [posts, setPosts] = useState([{name: "", image: ""}]);
+    const storage = getStorage();
+    const [posts, setPosts] = useState([]);
+    const [loading, setLoading] = useState(true);
 
-    const fetchPosts = async () => {
-        try {
-            await fetch('https://rickandmortyapi.com/api/character',{
-            method: 'GET',
+    const getPosts = async () => {
+
+        const q = query(collection(db, "posts"));
+
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+        
+        let image = doc.data().image;
+        
+        getDownloadURL(ref(storage, image))
+        .then((url) => {
+            //console.log(url);
+
+            let newPost = {image: url, title: doc.data().title, subtitle: doc.data().subtitle, date: doc.data().date};
+
+            setPosts([...posts, newPost]);
         })
-        .then(res => res.json())
-        .then(data => {
-            setPosts(data.results);
+        .then(() => {
+            setLoading(false);
         })
-        .catch((e) => {console.log("Something went wrong ", e);})
-        } catch (error) {
-            console.log(error);
-        }
+        });
+
     }
 
     useEffect(() => {
-        fetchPosts();
+        getPosts();
     }, [])
 
     let nPosts = 0;
@@ -48,7 +64,16 @@ export default function Popular(){
 
     const navigate = useNavigate();
 
-    return (
+    if(loading){
+        return (<Spinner 
+            thickness='4px'
+            speed='0.65s'
+            emptyColor='gray.900'
+            color='white'
+            size='xl'
+            style={{margin: "40px auto"}} />)
+    }else{
+        return (
         <motion.div variants={container} initial="hidden" animate="show" className={"hero-posts"}>
             <motion.div variants={item} className={"left"}>
                 <motion.img 
@@ -57,11 +82,11 @@ export default function Popular(){
                 }}
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
-                src={teslabot} />
+                src={posts[0].image} />
                 <div className={"description"}>
-                    <p>October 23, 2022</p>
-                    <h2>Dumbass scientist found guilty of developing serum that turns people into politicians</h2>
-                    <h3>{posts[0].name}</h3>
+                    <p>{posts[0].date}</p>
+                    <h2>{posts[0].title}</h2>
+                    <h3>{posts[0].subtitle}</h3>
                 </div>
             </motion.div>
             <motion.div variants={item} className={"right"}>
@@ -74,6 +99,7 @@ export default function Popular(){
             </motion.div>
         </motion.div>
     );
+    }
 }
 
 function Rightpost(props){
