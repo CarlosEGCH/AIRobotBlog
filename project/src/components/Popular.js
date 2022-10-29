@@ -14,35 +14,35 @@ export default function Popular(){
 
     const storage = getStorage();
     const [posts, setPosts] = useState([]);
+
     const [loading, setLoading] = useState(true);
 
     const getPosts = async () => {
+        
+        let newPosts = []; 
 
         const q = query(collection(db, "posts"));
-
         const querySnapshot = await getDocs(q);
-        querySnapshot.forEach((doc) => {
+
+        querySnapshot.forEach(async (doc) => {
         
-        let image = doc.data().image;
+        let newPost = {id: doc.id, image: doc.data().image, title: doc.data().title, subtitle: doc.data().subtitle, date: doc.data().date};
+
+        newPosts.push(newPost);
+
+    });
         
-        getDownloadURL(ref(storage, image))
-        .then((url) => {
-            //console.log(url);
-
-            let newPost = {image: url, title: doc.data().title, subtitle: doc.data().subtitle, date: doc.data().date};
-
-            setPosts([...posts, newPost]);
-        })
-        .then(() => {
-            setLoading(false);
-        })
-        });
-
+        setPosts(newPosts);
+        setLoading(false);
     }
 
     useEffect(() => {
-        getPosts();
-    }, [])
+        if(posts.length == 0){
+            getPosts();
+        }else{
+            return;
+        }
+    })
 
     let nPosts = 0;
 
@@ -78,7 +78,7 @@ export default function Popular(){
             <motion.div variants={item} className={"left"}>
                 <motion.img 
                 onClick={() => {
-                    navigate("/post/" + 1);
+                    navigate("/post/" + posts[0].id);
                 }}
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
@@ -90,10 +90,10 @@ export default function Popular(){
                 </div>
             </motion.div>
             <motion.div variants={item} className={"right"}>
-                {posts.map((post, key) => {
+                {posts.slice(1).map((post, key) => {
                     if(nPosts < 3){
                         nPosts++;
-                        return (<Rightpost id={key} post={post} key={key} />)
+                        return (<Rightpost id={post.id} post={post} key={key} />)
                     }
                 })}
             </motion.div>
@@ -113,10 +113,10 @@ function Rightpost(props){
                     navigate("/post/" + props.id);
                 }}
                 whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.97 }} src={teslabot} alt="image" />
+                whileTap={{ scale: 0.97 }} src={props.post.image} alt="image" />
             <div className={"description"}>
-                <p>October 21, 2022</p>
-                <h3>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Eligendi dignissimos quaerat officiis blanditiis </h3>
+                <p>{props.post.title}</p>
+                <h3>{props.post.subtitle}</h3>
             </div>
         </div>
     )

@@ -1,19 +1,25 @@
 import "../styles/Singlepost.css";
 
 import catto from "../assets/catto.jpg";
+import robot from "../assets/movement.mp4"
 
 import { motion, AnimatePresence } from "framer-motion";
 
 import Navbar from "./Navbar";
 import Footer from "./Footer";
+import { useEffect } from "react";
 
 export default function Singlepost(){
+
+    useEffect(() => {
+        window.scrollTo(0,0);
+    }, [])
 
     return(
         <motion.div initial={{opacity: 0}} animate={{opacity: 1}} exit={{opacity: 0}} transition={{duration: 1}} >
             <Navbar />
             <Postbanner />
-            <Postcontent />
+            <Postvideo />
             <Footer />
         </motion.div>
     )
@@ -36,6 +42,30 @@ function Postcontent(){
         </div>
     )
 
+}
+
+function Postvideo(){
+
+    //https://youtube.com/shorts/3FULIUIgCM8?feature=share
+
+    return(
+        <div className={"postcontent-wrapper"}>
+            <div className={"first"}>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo magnam modi fugiat, cupiditate, fugit, reprehenderit unde perferendis voluptate aliquam consectetur odio ea. Voluptatum, quis ducimus quaerat delectus minima expedita recusandae. Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores nulla, vero ut quis, odit blanditiis eveniet quia ipsam nobis perspiciatis fuga. Maiores cumque veritatis vitae nam saepe itaque reiciendis voluptates.</p>
+            </div>
+            <div className={"second"}>
+                <video width="320" height="240" controls muted style={{margin: "0 auto"}}>
+                <source src={robot} type="video/mp4" />
+                <source src={robot} type="video/ogg"/>
+                Your browser does not support the video tag.
+                </video>
+                <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Vitae id ipsa nobis assumenda labore provident fuga inventore incidunt ex, laborum, explicabo animi qui nisi distinctio voluptate obcaecati suscipit cumque aut. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt velit reprehenderit est recusandae assumenda id, maiores illo? Ipsam placeat tempora, illum voluptas perferendis, quia natus libero doloremque laudantium qui inventore!</p>
+            </div>
+            <div className={"third"}>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio in hic earum autem non dolores, quas quo eum, culpa voluptatem et amet esse ex aspernatur ut nisi, quis dolorum doloremque? Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eaque expedita iste reiciendis molestias quis delectus, necessitatibus rerum ullam perspiciatis. Totam minus distinctio earum est inventore fugiat dolorem eveniet exercitationem eligendi.</p>
+            </div>
+        </div>
+    )
 }
 
 function Postbanner(){
