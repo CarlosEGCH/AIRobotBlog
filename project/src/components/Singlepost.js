@@ -3,72 +3,120 @@ import "../styles/Singlepost.css";
 import catto from "../assets/catto.jpg";
 import robot from "../assets/movement.mp4"
 
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
+
+import { collection, query, where, getDocs } from "firebase/firestore";
+import { db } from "../firebase";
 
 import Navbar from "./Navbar";
 import Footer from "./Footer";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { Spinner } from "@chakra-ui/react";
 
 export default function Singlepost(){
 
+    const { id } = useParams();
+    const [post, setPost] = useState({});
+    const [loading, setLoading] = useState(true);
+
+
+
+    const getPost = async () => {
+        const postsRef = collection(db, "posts");
+
+        const q = query(postsRef, where("__name__", "==", id));
+        
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+            setPost(doc.data());
+            setLoading(false);
+        });
+    }
+
+
+
+    const renderPost = (post) => {
+        switch (post.type) {
+            case "basic":
+                return (<Postcontent post={post} />)
+                break;
+            case "video":
+                return (<Postvideo post={post} />)
+                break;
+            default:
+                break;
+        }
+    }
+
     useEffect(() => {
         window.scrollTo(0,0);
+        getPost();
     }, [])
 
     return(
         <motion.div initial={{opacity: 0}} animate={{opacity: 1}} exit={{opacity: 0}} transition={{duration: 1}} >
             <Navbar />
-            <Postbanner />
-            <Postvideo />
+            {<Postbanner post={post} />}
+            {renderPost(post)}
             <Footer />
         </motion.div>
     )
 }
 
-function Postcontent(){
+function Loader(){
+    return(
+        <Spinner 
+            thickness='4px'
+            speed='0.65s'
+            emptyColor='gray.900'
+            color='white'
+            size='xl'
+            style={{margin: "40px auto"}} />
+    )
+}
+
+function Postcontent({post}){
 
     return(
         <div className={"postcontent-wrapper"}>
             <div className={"first"}>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo magnam modi fugiat, cupiditate, fugit, reprehenderit unde perferendis voluptate aliquam consectetur odio ea. Voluptatum, quis ducimus quaerat delectus minima expedita recusandae. Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores nulla, vero ut quis, odit blanditiis eveniet quia ipsam nobis perspiciatis fuga. Maiores cumque veritatis vitae nam saepe itaque reiciendis voluptates.</p>
+                <p>{post.content.fparagraph}</p>
             </div>
             <div className={"second"}>
-                <img src={catto} alt="post image" />
-                <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Vitae id ipsa nobis assumenda labore provident fuga inventore incidunt ex, laborum, explicabo animi qui nisi distinctio voluptate obcaecati suscipit cumque aut. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt velit reprehenderit est recusandae assumenda id, maiores illo? Ipsam placeat tempora, illum voluptas perferendis, quia natus libero doloremque laudantium qui inventore!</p>
+                <img src={post.image} alt="post image" />
+                <p>{post.content.sparagraph}</p>
             </div>
             <div className={"third"}>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio in hic earum autem non dolores, quas quo eum, culpa voluptatem et amet esse ex aspernatur ut nisi, quis dolorum doloremque? Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eaque expedita iste reiciendis molestias quis delectus, necessitatibus rerum ullam perspiciatis. Totam minus distinctio earum est inventore fugiat dolorem eveniet exercitationem eligendi.</p>
+                <p>{post.content.tparagraph}</p>
             </div>
         </div>
     )
 
 }
 
-function Postvideo(){
-
-    //https://youtube.com/shorts/3FULIUIgCM8?feature=share
+function Postvideo({post}){
 
     return(
         <div className={"postcontent-wrapper"}>
             <div className={"first"}>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo magnam modi fugiat, cupiditate, fugit, reprehenderit unde perferendis voluptate aliquam consectetur odio ea. Voluptatum, quis ducimus quaerat delectus minima expedita recusandae. Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores nulla, vero ut quis, odit blanditiis eveniet quia ipsam nobis perspiciatis fuga. Maiores cumque veritatis vitae nam saepe itaque reiciendis voluptates.</p>
+                <p>{post.content.fparagraph}</p>
             </div>
-            <div className={"second"}>
-                <video width="320" height="240" controls muted style={{margin: "0 auto"}}>
-                <source src={robot} type="video/mp4" />
-                <source src={robot} type="video/ogg"/>
+            <div className={"video-container"}>
+                <video controls muted style={{margin: "0 auto"}}>
+                <source src={post.content.video} type="video/mp4" />
+                <source src={post.content.video} type="video/ogg"/>
                 Your browser does not support the video tag.
                 </video>
-                <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Vitae id ipsa nobis assumenda labore provident fuga inventore incidunt ex, laborum, explicabo animi qui nisi distinctio voluptate obcaecati suscipit cumque aut. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt velit reprehenderit est recusandae assumenda id, maiores illo? Ipsam placeat tempora, illum voluptas perferendis, quia natus libero doloremque laudantium qui inventore!</p>
             </div>
             <div className={"third"}>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio in hic earum autem non dolores, quas quo eum, culpa voluptatem et amet esse ex aspernatur ut nisi, quis dolorum doloremque? Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eaque expedita iste reiciendis molestias quis delectus, necessitatibus rerum ullam perspiciatis. Totam minus distinctio earum est inventore fugiat dolorem eveniet exercitationem eligendi.</p>
+                <p>{post.content.sparagraph}</p>
             </div>
         </div>
     )
 }
 
-function Postbanner(){
+function Postbanner({post}){
 
     const image = {
         hidden: {
@@ -117,14 +165,14 @@ function Postbanner(){
 
     return (
         <div className={"postbanner-wrapper"}>
-            <img src={catto} className={"postbanner-background"}/>
+            <img src={post.image} className={"postbanner-background"}/>
             <div className={"postbanner-header"}>
                 <motion.div variants={image} initial="hidden" animate="show" className={"image-container"}>
-                    <img src={catto} />
+                    <img src={post.image} />
                 </motion.div>
                 <div className={"title-container"}>
-                    <motion.h1 variants={title} initial="hidden" animate="show" >This is the post title</motion.h1>
-                    <motion.h3 variants={subtitle} initial="hidden" animate="show">Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam maiores aperiam reprehenderit maxime voluptatem ex ut sint at repellendus repellat sed totam quibusdam mollitia itaque, corporis eveniet? Quam, accusamus ipsam.</motion.h3>
+                    <motion.h1 variants={title} initial="hidden" animate="show" >{post.title}</motion.h1>
+                    <motion.h3 variants={subtitle} initial="hidden" animate="show">{post.subtitle}</motion.h3>
                 </div>
             </div>
         </div>

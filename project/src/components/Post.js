@@ -10,14 +10,14 @@ export default function Post(props){
         <motion.div style={props.style} variants={props.variant} className={"posts-post"}>
             <motion.img
             onClick={() => {
-                navigate("/post/"+props.id);
+                navigate("/post/"+props.post.id);
             }}
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
-            src={props.image} alt="image" />
-            <h2>October 23, 2022</h2>
-            <h1>Post title</h1>
-            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eveniet perspiciatis perferendis vel magni suscipit </p>
+            src={props.post.image} alt="image" />
+            <h2>{props.post.date}</h2>
+            <h1>{props.post.title}</h1>
+            <p>{props.post.subtitle}</p>
         </motion.div>
     )
 

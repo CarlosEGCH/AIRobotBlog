@@ -22,7 +22,11 @@
     font-weight: 600;
     margin-top: 10px;
 }
-
+.content-wrapper .content-posts .posts-post img {
+    height: 300px;
+    width: 100%;
+    object-fit: cover;
+}
 .content-wrapper .content-posts .posts-post h1 {
     font-size: 22px;
     font-weight: 600;
@@ -34,7 +38,7 @@
         padding: 20px;
     }
     .content-wrapper .content-posts{
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 1fr;
         gap: 20px;
     }
 }

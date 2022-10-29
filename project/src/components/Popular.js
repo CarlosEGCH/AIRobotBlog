@@ -6,13 +6,11 @@ import { Spinner } from "@chakra-ui/react";
 import teslabot from '../assets/teslabot.jpg';
 import { useNavigate } from "react-router-dom";
 
-import { getStorage, ref, getDownloadURL } from "firebase/storage";
 import { collection, query, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
 
 export default function Popular(){
 
-    const storage = getStorage();
     const [posts, setPosts] = useState([]);
 
     const [loading, setLoading] = useState(true);
@@ -115,6 +113,7 @@ function Rightpost(props){
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }} src={props.post.image} alt="image" />
             <div className={"description"}>
+                <p>{props.post.date}</p>
                 <p>{props.post.title}</p>
                 <h3>{props.post.subtitle}</h3>
             </div>
