@@ -59,6 +59,8 @@
 }
 .hero-wrapper .hero-content .hero-posts .left .description h3 {
     color: rgb(136, 135, 135);
+    width: 90%;
+    margin: 0 auto;
 }
 .hero-wrapper .hero-content .hero-posts .left .description h2 {
     font-size: 22px;
@@ -85,7 +87,7 @@
     .hero-wrapper .hero-posts .left img {
         object-fit: contain;
         max-height: 600px;
-        margin: 0px;
+        margin: 0px 0px 10px 0px;
     }
     .hero-wrapper .hero-posts .right .rightpost {
         display: flex;

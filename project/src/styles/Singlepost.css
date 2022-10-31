@@ -73,8 +73,44 @@
     padding-top: 10px;
     border-top: 1px solid darkslategray;
 }
-
+.postcontent-wrapper .rules-abstract{
+    font-size: 26px;
+}
+.postcontent-wrapper > ol{
+    margin-top: 20px;
+    font-size: 26px;
+}
+.postcontent-wrapper li{
+    margin: 5px 0px;
+}
+.postcontent-wrapper .numeric{
+    margin-left: 30px;
+}
+.postcontent-wrapper .alpha{
+    list-style-type: lower-alpha;
+    margin-left: 30px;
+}
+.postcontent-wrapper .roman{
+    list-style-type: lower-roman;
+    margin-left: 20px;
+}
 @media only screen and (max-width: 700px) {
+.postcontent-wrapper>ol {
+    margin-top: 20px;
+    font-size: 22px;
+}
+.postcontent-wrapper .numeric {
+    margin-left: 20px;
+}
+.postcontent-wrapper .alpha {
+    margin-left: 10px;
+}
+.postcontent-wrapper .roman {
+    margin-left: 10px;
+}
+.postcontent-wrapper .rules-abstract {
+    font-size: 22px;
+}
 .postbanner-wrapper .postbanner-header {
     display: grid;
     grid-template-columns: 1fr 1fr;

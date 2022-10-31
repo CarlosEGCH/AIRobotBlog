@@ -1,8 +1,5 @@
 import "../styles/Singlepost.css";
 
-import catto from "../assets/catto.jpg";
-import robot from "../assets/movement.mp4"
-
 import { motion } from "framer-motion";
 
 import { collection, query, where, getDocs } from "firebase/firestore";
@@ -44,6 +41,9 @@ export default function Singlepost(){
             case "video":
                 return (<Postvideo post={post} />)
                 break;
+            case "rules":
+                return (<Postrules />)
+                break;
             default:
                 break;
         }
@@ -84,7 +84,7 @@ function Postcontent({post}){
                 <p>{post.content.fparagraph}</p>
             </div>
             <div className={"second"}>
-                <img src={post.image} alt="post image" />
+                <img src={post.content.image} alt="post image" />
                 <p>{post.content.sparagraph}</p>
             </div>
             <div className={"third"}>
@@ -112,6 +112,135 @@ function Postvideo({post}){
             <div className={"third"}>
                 <p>{post.content.sparagraph}</p>
             </div>
+        </div>
+    )
+}
+
+function Postrules(){
+
+    return(
+        <div className={"postcontent-wrapper"}>
+            <h1 className={"rules-abstract"}>
+                In order to achieve this objective the group decided to create three manuals. Each manual would represent the behaviour of survivor robots, zombies, and the general world.
+            </h1>
+            <ol className={"numeric"}>
+                <li>
+                    <p>Survivor Robot Manual</p>
+                    <ol className={"alpha"}>
+                        <li>
+                            <p>Initial State</p>
+                            <ol className={"roman"}>
+                                <li>The survivor robot starts at the position [1,1].</li>
+                                <li>In the beginning, the survivor robot will not have neither ammunition nor pieces to repair the motorcycle.</li>
+                                <li>The survivor robot will have previous training. </li>
+                            </ol>
+                        </li>
+                        <li>
+                            <p>Final State or solution condition: </p>
+                            <ol className={"roman"}>
+                                <li>The robot has to reach the motorcycle with all the pieces necessary to repair it, at the position [6,6].</li>
+                            </ol>
+                        </li>
+                        <li>
+                            <p>Objective:</p>
+                            <ol className={"roman"}>
+                                <li>The survivor robot will find and repair the motorcycle without being caught by the zombies.</li>
+                                <li>The survivor robot would have to find and catch all the motorcycle parts.</li>
+                            </ol>
+                        </li>
+                        <li>
+                            <p>Rules:</p>
+                            <ol className={"roman"}>
+                                <li>
+                                    R1: The robot can move horizontally and/or vertically. <br/>
+                                    [Rx, Ry] → [Rx + k, Ry + j] <br/>
+                                    Where -1 &#8804; k, j &#8804; 1 and Rx + k &#8804; 6 and Ry + j &#8804; 6 
+                                </li>
+                                <li>
+                                    R2: The robot can recognize if there's a mechanical piece or ammunition in his own tile and pick them up. <br/>
+                                    [Pnum, Anum] → [Pnum + Pdetected, Anum + Adetected]
+                                </li>
+                                <li>
+                                    R3: The robot can detect entities in the adjacent tiles:<br/>
+                                    [Bdeg, Znum, Pnum, Lnum, Anum]<br/>
+                                    → [Bdeg + 90, Znum + Zf, Pnum + Pf, Lnum + Lf, Anum + Af]<br/>
+                                    Where Bdeg &#8804; 270
+                                </li>
+                                <li>
+                                    R4: If the robot finds an item (ammunition or mechanical piece) it will move towards it to pick it up:<br/>
+                                    [Bx, By, Ix, Iy, 0] → [Ix, Iy, Ix, Iy, 1]
+                                </li>
+                                <li>
+                                    R5: If the zombie is at melee range of the robot, the robot can perform a physical attack:<br/>
+				                    [Bpx, Bpy, Zx, Zy, 0] → [Zx, Zy, Zx, Zy, 1]
+                                </li>
+                                <li>
+                                    R6: The same rule can apply with the ranged attack if the robot possesses enough ammunition<br/>
+                                    [Bpx, Bpy, Zx, Zy, A, 0] → [Zx, Zy, Zx, Zy, A - 1, 1]
+                                </li>
+                            </ol>
+                        </li>
+                    </ol>
+                </li>
+                <li>
+                    <p>Zombies Manual:</p>
+                    <ol className="alpha">
+                        <li>
+                            <p>General State of the Zombies: [Zx, Zy, P, M, Z2, B] where:</p>
+                            <ol className={"roman"}>
+                                <li>Zx: vector of the zombie at the position x.</li>
+                                <li>Zy: vector of the zombie at the position y.</li>
+                                <li>P (pieces): represents a flag which if it's 0 the zombies would not have any pieces, if it's 1 the zombies would have one piece, if it's 2 the zombies would have all the pieces.</li>
+                                <li>M (ammunition): represents a flag which if it's 0 the zombies would not have ammunition, if it's 1 the zombies would have the ammunition.</li>
+                                <li>B (survivor robot): represents a flag which if it's 0 the zombies will not be at the same position as the survivor robot, if it's 1 the zombie will be at the same position as the survivor robot.</li>
+                            </ol>
+                        </li>
+                        <li>
+                            <p>Initial State: [Zx, Zy, 0, 0, 1, 0]</p>
+                            <ol className={"roman"}>
+                                <li>
+                                    The zombies start in the corners of the world, far away from the robot.
+                                </li>
+                            </ol>
+                        </li>
+                        <li>
+                            <p>Final State or solution condition: [Zx, Zy, 0, 0, 1, 1]</p>
+                            <ol className={"roman"}>
+                                <li>
+                                    The zombies would have to be at the same position as the survivor robot without being stunned.
+                                </li>
+                            </ol>
+                        </li>
+                        <li>
+                            <p>Objective:</p>
+                            <ol className={"roman"}>
+                                <li>
+                                    The zombies would have to catch and kill the survivor robot
+                                </li>
+                            </ol>
+                        </li>
+                        <li>
+                            <p>Rules:</p>
+                            <ol className={"roman"}>
+                                <li>
+                                    R1: the zombie would have to be at the same position as the survivor robot to catch it.<br/>
+                                    [Zx, Zy, P, M, 1, 0] → [Zx, Zy, P, M, 1, 1]<br/>
+                                    0 &#8804; P &#8804; 2 and 0 &#8804; M &#8804; 1
+                                </li>
+                                <li>
+                                    R2: The zombies would move square per turn<br/>
+                                    [Zx, Zy, P, M, 1, 0] → [Zx, Zy, P, M, 0, 0]<br/>
+                                    0 &#8804; P &#8804; 2 ; 0 &#8804; M &#8804; 1 and 0 &#8804; B &#8804; 1
+                                </li>
+                                <li>
+                                    R3: two zombies can't be at the same square
+                                    [Zx, Zy, P, M, 1, 0] → [Zx, Zy, P, M, 0, 0]
+                                </li>
+                            </ol>
+                        </li>
+                    </ol>
+                </li>
+            </ol>
         </div>
     )
 }

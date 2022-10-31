@@ -1,0 +1,17 @@
+.team-wrapper{
+    width: 100vw;
+    padding: 100px 30px;
+}
+.team-wrapper .team-container{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+}
+.team-wrapper .team-container .team-member img{
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 100%;
+}

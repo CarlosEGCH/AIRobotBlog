@@ -54,6 +54,10 @@ const navigate = useNavigate();
                 whileHover={{ scale: 1.2 }}
                 whileTap={{ scale: 1.1 }}
                 onClick={() => {navigate("/posts")}}>Posts</motion.p>
+                <motion.p
+                whileHover={{ scale: 1.2 }}
+                whileTap={{ scale: 1.1 }}
+                onClick={() => {navigate("/team")}}>Team</motion.p>
             </div>)
 }
 
@@ -89,6 +93,7 @@ function Mobile() {
           <DrawerBody display="flex" flexDirection="column" gap="20px" fontSize="22px" textAlign="center">
             <p onClick={() => {chooseOption("")}}>Home</p>
             <p onClick={() => {chooseOption("posts")}}>Posts</p>
+            <p onClick={() => {chooseOption("team")}}>Team</p>
           </DrawerBody>
 
           <DrawerFooter>
