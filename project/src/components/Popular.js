@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Spinner } from "@chakra-ui/react";
 
-import teslabot from '../assets/teslabot.jpg';
 import { useNavigate } from "react-router-dom";
 
 import { collection, query, getDocs } from "firebase/firestore";

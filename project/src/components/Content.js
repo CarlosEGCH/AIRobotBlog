@@ -1,7 +1,5 @@
 import "../styles/Content.css";
 
-import ai from "../assets/ai.png";
-
 import { motion } from "framer-motion";
 
 import { collection, query, getDocs } from "firebase/firestore";
