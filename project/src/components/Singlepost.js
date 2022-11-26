@@ -37,13 +37,12 @@ export default function Singlepost(){
         switch (post.type) {
             case "basic":
                 return (<Postcontent post={post} />)
-                break;
             case "video":
                 return (<Postvideo post={post} />)
-                break;
             case "rules":
                 return (<Postrules />)
-                break;
+            case "zombieRules":
+                return (<ZombieRules />)
             default:
                 break;
         }
@@ -61,6 +60,169 @@ export default function Singlepost(){
             {renderPost(post)}
             <Footer />
         </motion.div>
+    )
+}
+
+function ZombieRules(){
+
+
+    return(
+        <div className="postcontent-wrapper">
+            <h1>Zombie Rules</h1>
+            <div className="zombierules-content">
+                <h3>Initial State:</h3>
+                <p className="i-1 s-1">Zombies will start at the corners of the board.</p>
+
+                <h3>End State:</h3>
+                <p className="i-1 s-1">Capture the robot SB.</p>
+
+                <h3>Objective:</h3>
+                <p className="i-1 s-1">Catch and kill the robot SB.</p>
+
+                <h3>Rules:</h3>
+                <div className="zombierules-state">
+                    <p>1) State: [ Zx, Zy, Mx, My, I, Ca, NT, E, RsM] where:</p>
+                    <ul className="i-2">
+                        <li>Zx is the position of the Zombie on the X axis.</li>
+                        <li>Zy is the position of the Zombie on the Y axis.</li>
+                        <li>Mx is the position on the X axis of the action that the Zombie will perform.</li>
+                        <li>My is the position on the Y axis of the action that the Zombie will do.</li>
+                        <li>I is the Item that the Zombie currently has in its possession.</li>
+                        <li>Ca is the Id of the item that is in the current box.</li>
+                        <li>NT is the number of attempts the zombie tries to make a move, but it is not possible.</li>
+                        <li>E is the state of the Zombie.</li>
+                        <li>RsM are the rounds the Zombie must be without movement because of the SB stun.</li>
+                    </ul>
+                    <p className="s-1">Only the Ids can be in the Item: “0” which represents no object, “1” for the motorcycle parts and “5” which is when the robot is caught by the Zombie. It is also necessary to specify that the Zombie can only have one object in its pose.</p>
+                    <p className="s-1">In Ca the possible Ids are: “0” which represents no object, “1” for the motorcycle parts, “2” for the ammo, “3” for the motorcycle, “4” for the other Zombie that is on the board and “5” which is when the robot is in the same box as the Zombie.</p>
+                    <p className="s-1">In E, which is the state of the Zombie, the possible options are: "N" which is the state where the Zombie can act as it normally does, "A" which is the state where the Zombie is stunned, "D" is the state of destruction which is activated while the SB alarm is active, “M” which is when the Zombie is dead and “V” which is the victory state on the part of the Zombie.</p>
+                </div>
+                <p className="i-1 s-1">2) Initial State: [1, 6, X, X, 0, 0, 0, N, 0]     or     [6, 1, X, X, 0, 0, 0, N, 0]</p>
+                <p className="i-1 s-1">3) Final State: [Rx, Ry, X, X, 5, 0, 0, V, 0]</p>
+                <p className="s-1">Rx and Ry is the position where the robot is and the Item is “5” since the robot has already been caught (As the robot is no longer on the board, it does not appear in the Ca variable).</p>
+                <div className="defined-rules">
+                    <p className="i-1">4) Rules: </p>
+                    <ul className="i-2">
+                        <li className="s-1">
+                            <p>R1: To get the SB the Zombie must be in the same box.</p>
+                            <p>[Zx, Zy, X, X, 0, 5, 0, N, 0] -> [Zx, Zy, X, X, 5, 0, 0, V, 0]</p>
+                        </li>
+                        <li className="s-1">
+                            <p>R2: Before performing any movement, the zombie will have to update its objective in the State so that after being verified it can perform the respective movement. He moves from one box at a time.</p>
+                            <p>[Zx, Zy, X, X, X, X, 0, N, 0] -> [Zx, Zy, Zx + k, Zy + i, X, X, 0, N, 0]</p>
+                            <p>Where k and I are between 0 and 1.</p>
+                        </li>
+                        <li className="s-1">
+                            <p>R3: The zombie moves randomly one space at a time.</p>
+                            <p>[Zx, Zy, Ox, Oy, X, X, 0, N, 0] -> [Ox, Oy, X, X, X, X, 0, N, 0]</p>
+                            <p>Where Ox = Zx + k and Oy = Zy + i. (k,i belong to [0, 1])</p>
+                            <ul className="i-1">
+                                <li>
+                                    <p>R3.1: The zombie randomly decides to move to the right.</p>
+                                    <p>[Zx, Zy, Zx + 1, Zy, X, X, 0, N, 0] -> [Zx + 1, Zy, X, X, X, X, 0, N, 0]</p>
+                                    <p>This is possible if there is no other Zombie in [Zx + 1, Zy] and the desired move is inside the board. If there is any impediment, R4 is applied.</p>
+                                </li>
+                                <li>
+                                    <p>R3.2: The zombie randomly decides to move to the left.</p>
+                                    <p>[Zx, Zy, Zx - 1, Zy, X, X, 0, N, 0] -> [Zx - 1, Zy, X, X, X, X, 0, N, 0]</p>
+                                    <p>This is possible if there is no other Zombie in [Zx - 1, Zy] and the desired move is inside the board. If there is any impediment, R4 is applied.</p>
+                                </li>
+                                <li>
+                                    <p>R3.3: The zombie randomly decides to move up.</p>
+                                    <p>[Zx, Zy, Zx, Zy - 1, X, X, 0, N, 0] -> [Zx, Zy - 1, X, X, X, X, 0, N, 0]</p>
+                                    <p>This is possible if there is no other Zombie in [Zx, Zy - 1] and the desired move is inside the board. If there is any impediment, R4 is applied.</p>
+                                </li>
+                                <li>
+                                    <p>R3.4: The zombie randomly decides to move down.</p>
+                                    <p>[Zx, Zy, Zx, Zy + 1, X, X, 0, N, 0] -> [Zx, Zy + 1, X, X, X, X, 0, N, 0]</p>
+                                    <p>This is possible if there is no other Zombie in [Zx, Zy + 1] and the desired move is inside the board. If there is any impediment, R4 is applied.</p>
+                                </li>
+                            </ul>
+                        </li>
+                        <li className="s-1">
+                            <p>R4: It is not possible to have 2 Zombies in the same box. This rule is also applied in case the zombie aims to move off the board. If the Zombie tries to move to a position that is not allowed, the movement is completed clockwise (a new objective is placed in the Zombie's state).</p>
+                            <p>[Zx, Zy, Ox, Oy, X, X, NT, N, 0] -> [Zx, Zy, NOx, NOy, X, X, NT, N, 0]</p>
+                            <p>Where NO is the new objective depends on the case, as shown in the following rules and NT is the number of attempts which cannot be greater than or equal to 4, in which case the Zombie remains quiet during his turn.</p>
+                            <h6>Initial conditions:</h6>
+                            <ol className="i-1">
+                                <li>If there is another Zombie in the board position [Ox, Oy].</li>
+                                <li>Ox or Oy exceed the limits of the board, that is, if Ox >Lx (Limit of the X board) and Oy >Ly (Limit of the Y board)</li>
+                            </ol>
+                            <ul className="i-1">
+                                <li>
+                                    <p>R4.1: If the Zombie tries to move forward and fails, it is moved to the right.</p>
+                                    <p>[Zx, Zy, Zx , Zy + 1, X, X, NT, N, 0] -> [Zx, Zy, Zx + 1, Zy, X, X, NT + 1, N, 0]</p>
+                                </li>
+                                <li>
+                                    <p>R4.2: If the Zombie tries to move to the right and fails, it is moved down.</p>
+                                    <p>[Zx, Zy, Zx + 1, Zy , X, X, NT, N, 0] -> [Zx, Zy, Zx, Zy - 1, X, X, NT + 1, N, 0]</p>
+                                </li>
+                                <li>
+                                    <p>R4.3: If the Zombie tries to move down and fails, it is moved to the left.</p>
+                                    <p>[Zx, Zy, Zx, Zy - 1, X, X, NT, N, 0] -> [Zx, Zy, Zx - 1, Zy, X, X, NT + 1, N, 0]</p>
+                                </li>
+                                <li>
+                                    <p>R4.4: If the Zombie tries to move to the left and fails, it is moved up.</p>
+                                    <p>[Zx, Zy, Zx - 1, Zy , X, X, NT, N, 0] -> [Zx, Zy, Zx, Zy + 1, X, X, NT + 1, N, 0]</p>
+                                </li>
+                            </ul>
+                        </li>
+                        <li className="s-1">
+                            <p>R5: If the NT is greater than or equal to “4”, the Zombie is quiet during its turn and the NT is reset to “0”.</p>
+                            <p>[Zx, Zy, Ox, Oy, X, X, 4, N, 0] -> [Zx, Zy, X, X, X, X, 0, N, 0]</p>
+                        </li>
+                        <li className="s-1">
+                            <p>R6: The Zombie must carry out a reconnaissance before and after taking his turn in order to know what is in the box he is in.</p>
+                            <p>[Zx, Zy, X, X, X, X, 0, N, 0] -> [Zx, Zy, X, X, X, Ca, 0, N, 0]</p>
+                            <p>Where Ca can be the aforementioned values depending on what is found in the box he is in.</p>
+                        </li>
+                        <li className="s-1">
+                            <p>R7: If the Zombie meets one of the parts needed to repair the motorcycle, it remains in its possession.</p>
+                            <p>[Zx, Zy, X, X, 0, 1, 0, N, 0] -> [Zx, Zy, X, X, 1, 0, 0, N, 0]</p>
+                        </li>
+                        <li className="s-1">
+                            <p>R8: The zombie is stunned when the SB makes a machete attack.</p>
+                            <ul className="i-1">
+                                <li>
+                                    <p>R8.1: If the Zombie do not have any parts in his possession.</p>
+                                    <p>[Zx, Zy, X, X, 0, 0, 0, N or D, 0] -> [Zx, Zy, X, X, 0, 0, 0, A, 2]</p>
+                                </li>
+                                <li>
+                                    <p>R8.2: If the Zombie have a part in his possession.</p>
+                                    <p>[Zx, Zy, X, X, 1, 0, 0, N or D, 0] -> [Zx, Zy, X, X, 0, 1, 0, A, 2]</p>
+                                </li>
+                            </ul>
+                        </li>
+                        <li className="s-1">
+                            <p>R9: When the zombie tries to carry out a movement while in the “Stunned” state, the RsM variable is reduced by one.</p>
+                            <p>[Zx, Zy, X, X, 0, X, 0, A, RsM] -> [Zx, Zy, X, X, 0, X, 0, A, RsM - 1]</p>
+                            <p>Where RsM must be in the range [1,2] and RsM is greater than or equal to 0.</p>
+                        </li>
+                        <li className="s-1">
+                            <p>R10: When the Zombie state is “Stunned” and RsM is 0, the Zombie goes to the “Normal” state.</p>
+                            <p>[Zx, Zy, X, X, 0, X, 0, A, 0] -> [Zx, Zy, X, X, 0, X, 0, N, 0]</p>
+                        </li>
+                        <li className="s-1">
+                            <p>R11: While the alarm is active the Zombie is attracted to the current position of the SB</p>
+                            <p>[Zx, Zy, X, X, X, X, 0, N, 0] -> [Zx, Zy, Ox, Oy, X, X, 0, D, 0]</p>
+                            <p>Where Ox = SBx (equals the position on the SB's X's axes) and Oy = SBy (equals the position on the SB's X's axes).</p>
+                        </li>
+                        <li className="s-1">
+                            <p>R12: When the Zombie's Objective is farther than one square away, the Zombie's position is updated little by little until it reaches it. While the alarm is active and the Zombie has more than one option for this new move, it is performed according to the following priority: ←, ↑, →, ↓.</p>
+                            <p>[Zx, Zy, SBx, SBy, X, X, 0, D, 0] -> [Zx + k, Zy + i, SBx, SBy, X, X, 0, D, 0]</p>
+                        </li>
+                        <li className="s-1">
+                            <p>R13: When the alarm is no longer active, the Zombie changes from being in “Destruction” mode to “Normal” mode.</p>
+                            <p>[Zx, Zy, SBx, SBy, X, X, 0, D, 0] -> [Zx, Zy, X, X, X, X, 0, N, 0]</p>
+                        </li>
+                        <li className="s-1">
+                            <p>R14:  When the Zombie is attacked by the Zombie's pistol, it goes into the “Dead” state and its game over for him.</p>
+                            <p>[Zx, Zy, X, X, X, X, 0, N, 0] -> [Zx, Zy, X, X, X, X, 0, M, 0]</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     )
 }
 

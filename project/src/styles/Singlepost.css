@@ -94,6 +94,25 @@
     list-style-type: lower-roman;
     margin-left: 20px;
 }
+.postcontent-wrapper > h1{
+    font-weight: 700;
+    font-size: 26px;
+}
+.postcontent-wrapper .zombierules-content{
+    font-size: 26px;
+}
+.postcontent-wrapper .i-1{
+    margin-left: 40px;
+}
+.postcontent-wrapper .i-2 {
+    margin-left: 80px;
+}
+.postcontent-wrapper .zombierules-state p{
+    text-indent: 1cm;
+}
+.postcontent-wrapper .s-1{
+    margin-bottom: 20px;
+}
 @media only screen and (max-width: 700px) {
 .postcontent-wrapper>ol {
     margin-top: 20px;
@@ -166,5 +185,29 @@
 .postcontent-wrapper .third {
     padding-top: 30px;
     font-size: 18px;
+}
+.postcontent-wrapper>h1 {
+    font-weight: 700;
+    font-size: 20px;
+}
+
+.postcontent-wrapper .zombierules-content {
+    font-size: 20px;
+}
+
+.postcontent-wrapper .i-1 {
+    margin-left: 20px;
+}
+
+.postcontent-wrapper .i-2 {
+    margin-left: 40px;
+}
+
+.postcontent-wrapper .zombierules-state p {
+    text-indent: 0.5cm;
+}
+
+.postcontent-wrapper .s-1 {
+    margin-bottom: 20px;
 }
 }
